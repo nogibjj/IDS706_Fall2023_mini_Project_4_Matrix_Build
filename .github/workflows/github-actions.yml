@@ -1,4 +1,4 @@
-name: complete_workflow
+name: complete_workflow_with_python_version_matrix
 on:
   push:
     branches: [ "main" ]
@@ -7,8 +7,18 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        python:
+          - 3.7
+          - 3.8
+          - 3.9
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
       - uses: actions/checkout@v4
       - name: install
         run: make install
